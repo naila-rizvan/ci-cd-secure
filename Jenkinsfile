@@ -38,7 +38,7 @@ pipeline {
 
         stage('Run Application') {
             steps {
-                bat 'docker run -d -p 5000:5000 --name secure-app-container secure-app'
+                bat 'docker run -d -p 5050:5050 --name secure-app-container secure-app'
             }
         }
 
