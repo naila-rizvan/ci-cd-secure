@@ -16,8 +16,11 @@ pipeline {
 
         stage('SAST - Semgrep') {
             steps {
-                bat 'pip install semgrep'
-                bat 'semgrep --config=auto .'
+                bat '''
+                docker run --rm ^
+                -v "%cd%:/src" ^
+                returntocorp/semgrep semgrep scan --config=auto
+                '''
             }
         }
 
