@@ -16,38 +16,35 @@ pipeline {
 
         stage('SAST - Semgrep') {
             steps {
-                sh '''
-                pip install semgrep
-                semgrep --config=auto .
-                '''
+                bat 'pip install semgrep'
+                bat 'semgrep --config=auto .'
             }
         }
 
         stage('Dependency Scan - Trivy') {
             steps {
-                sh '''
-                docker run --rm -v ${PWD}:/project aquasec/trivy fs /project
-                '''
+                bat 'docker run --rm -v %cd%:/project aquasec/trivy fs /project'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t secure-app .'
+                bat 'docker build -t secure-app .'
             }
         }
 
         stage('Run Application') {
             steps {
-                sh 'docker run -d -p 5000:5000 --name secure-app-container secure-app'
+                bat 'docker run -d -p 5000:5000 --name secure-app-container secure-app'
             }
         }
 
         stage('DAST - OWASP ZAP') {
             steps {
-                sh '''
-                docker run --rm -t owasp/zap2docker-stable zap-baseline.py \
-                -t http://host.docker.internal:5000
+                bat '''
+                docker run --rm -t owasp/zap2docker-stable ^
+                zap-baseline.py -t http://host.docker.internal:5000 ^
+                -r zap-report.html
                 '''
             }
         }
