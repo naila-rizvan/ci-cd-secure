@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
+                branch: 'main',
                 credentialsId: 'github-credentials',
                 git 'https://github.com/naila-rizvan/ci-cd-secure.git'
             }
