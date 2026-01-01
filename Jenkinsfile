@@ -45,8 +45,10 @@ pipeline {
         stage('DAST - OWASP ZAP') {
             steps {
                 bat '''
-                docker run --rm -t zaproxy/zap-stable ^
-                zap-baseline.py -t http://host.docker.internal:5050 ^
+                docker run --rm ^
+                -v "%cd%:/zap/wrk" ^
+                zaproxy/zap-stable zap-baseline.py ^
+                -t http://host.docker.internal:5050 ^
                 -r zap-report.html
                 '''
             }
