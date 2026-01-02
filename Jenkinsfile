@@ -38,7 +38,7 @@ pipeline {
 
         stage('Create Docker Network') {
             steps {
-                bat 'docker network create zap-net || echo Network already exists'
+                bat 'docker network inspect zap-net >nul 2>&1 || docker network create zap-net'
             }
         }
 
