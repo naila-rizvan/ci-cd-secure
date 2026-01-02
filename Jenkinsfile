@@ -58,6 +58,7 @@ pipeline {
                 bat '''
                 docker run --rm ^
                 --network zap-net ^
+                -v "%cd%:/zap/wrk" ^
                 zaproxy/zap-stable zap-baseline.py ^
                 -t http://host.docker.internal:5050 ^
                 -r zap-report.html
