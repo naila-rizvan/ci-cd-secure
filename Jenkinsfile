@@ -72,7 +72,7 @@ pipeline {
                 --network zap-net ^
                 -v "%cd%:/zap/wrk" ^
                 zaproxy/zap-stable zap-baseline.py ^
-                -t http://secure-app-staging:5050 ^
+                -t http://secure-app-staging:5050 -m 5 ^
                 -r zap-staging-report.html
                 '''
             }
