@@ -19,7 +19,7 @@ pipeline {
                 bat '''
                 docker run --rm ^
                 -v "%cd%:/src" ^
-                returntocorp/semgrep semgrep scan --config=auto
+                returntocorp/semgrep semgrep scan --config=auto --verbose
                 '''
             }
         }
