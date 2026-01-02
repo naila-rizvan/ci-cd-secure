@@ -36,9 +36,20 @@ pipeline {
             }
         }
 
+        stage('Create Docker Network') {
+            steps {
+                bat 'docker network create zap-net || echo Network already exists'
+            }
+        }
+
         stage('Run Application') {
             steps {
-                bat 'docker run -d -p 5050:5050 --name secure-app-container secure-app'
+                bat '''
+                docker rm -f secure-app-container || exit 0
+                docker run -d --name secure-app-container ^
+                --network zap-net ^
+                -p 5050:5050 secure-app
+                '''
             }
         }
 
@@ -46,7 +57,7 @@ pipeline {
             steps {
                 bat '''
                 docker run --rm ^
-                -v "%cd%:/zap/wrk" ^
+                --network zap-net ^
                 zaproxy/zap-stable zap-baseline.py ^
                 -t http://host.docker.internal:5050 ^
                 -r zap-report.html
