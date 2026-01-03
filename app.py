@@ -1,8 +1,6 @@
 from flask import Flask
 app = Flask(__name__)
 
-SECRET_KEY = '456789vgbnm,ghj567'
-
 @app.route("/")
 def home():
     return "Hello Secure CI/CD"
